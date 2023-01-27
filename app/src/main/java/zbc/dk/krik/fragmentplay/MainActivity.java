@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements ValueNotifier {
+public class MainActivity extends AppCompatActivity implements ValueNotifier{
 
     EditText multiLine;
     Button callFragmentBtn;
@@ -25,9 +26,11 @@ public class MainActivity extends AppCompatActivity implements ValueNotifier {
         callFragmentBtn.setOnClickListener(v -> {
 
             NotifierFragment notifierFragment = NotifierFragment.newInstance("Hello from Main Activity");
-
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, notifierFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+            transaction = getSupportFragmentManager().beginTransaction();
             transaction.addToBackStack(null);
             transaction.commit();
 
@@ -39,4 +42,5 @@ public class MainActivity extends AppCompatActivity implements ValueNotifier {
     public void setValue(String value) {
         multiLine.append("Fragment said: " + value +'\n');
     }
+
 }
